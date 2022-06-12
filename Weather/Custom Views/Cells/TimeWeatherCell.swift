@@ -10,10 +10,23 @@ import UIKit
 class TimeWeatherCell: UICollectionViewCell {
     
     static let reuseID = "TimeWeatherCell"
-
+    
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var tempLabel: UILabel!
+    @IBOutlet weak var weatherImage: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+    }
+    
+    func set(hour: Hour, index: Int) {
+        if index < 10 {
+            timeLabel.text = "0\(index)"
+        } else {
+            timeLabel.text = String(index)
+        }
+        weatherImage.image = UIImage(systemName: hour.image)
+        tempLabel.text = String(format: "%.0f", hour.temp)
     }
 }
