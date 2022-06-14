@@ -13,10 +13,12 @@ class SearchVC: UIViewController {
     @IBOutlet weak var citiesTableView: UITableView!
     
     var cities = [City]()
+    var delegate: SearchVCDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        searchTextField.delegate = self
         citiesTableView.register(UINib(nibName: CitySearchCell.reuseID, bundle: nil), forCellReuseIdentifier: CitySearchCell.reuseID)
     }
     
@@ -26,12 +28,18 @@ class SearchVC: UIViewController {
     }
     
     @IBAction func dismissVC(_ sender: UIButton) {
-        
+        impactOccured(style: .light)
         dismiss(animated: true)
     }
     
     @IBAction func searchTapped(_ sender: UIButton) {
+        searchCities()
+    }
+    
+    func searchCities() {
         if let text = searchTextField.text, !text.isEmpty {
+            impactOccured(style: .light)
+            view.endEditing(true)
             Task {
                 do {
                     self.cities = try await PlaceSearchManager.shared.fetchCities(prefix: text)
@@ -40,7 +48,16 @@ class SearchVC: UIViewController {
                     print("Error")
                 }
             }
+        } else {
+            notificationOccurred(style: .error)
         }
+    }
+}
+
+extension SearchVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        searchCities()
+        return true
     }
 }
 
@@ -62,4 +79,12 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        impactOccured(style: .light)
+        let city = cities[indexPath.row]
+        delegate.didSelectCity(city: city)
+        dismiss(animated: true)
+    }
 }
+

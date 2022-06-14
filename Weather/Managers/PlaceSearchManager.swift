@@ -22,10 +22,15 @@ class PlaceSearchManager {
     
     func fetchCities(prefix: String) async throws -> [City] {
         
-        let endPoint = baseURL + "autocomplete?limit=100&skip=0&type=CITY&q=\(prefix)"
+        let lang = Locale.current.languageCode ?? "en"
+        
+        guard let encodedPrefix = prefix.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed) else {
+            throw ErrorMessage.error
+        }
+        
+        let endPoint = baseURL + "autocomplete?limit=100&skip=0&language=\(lang)&type=CITY&q=\(encodedPrefix)"
         
         guard let url = URL(string: endPoint) else {
-            print("Er1")
             throw ErrorMessage.error
         }
         
@@ -35,7 +40,6 @@ class PlaceSearchManager {
         let (data, response) = try await URLSession.shared.data(for: request)
         
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            print("Er2")
             throw ErrorMessage.error
         }
         
@@ -44,7 +48,6 @@ class PlaceSearchManager {
             let cities = try decoder.decode([City].self, from: data)
             return cities
         } catch {
-            print("Er3")
             throw ErrorMessage.error
         }
     }

@@ -8,6 +8,10 @@
 import Foundation
 import CoreLocation
 
+protocol LocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+}
+
 class LocationManager: NSObject {
     
     private let manager = CLLocationManager()
@@ -17,6 +21,8 @@ class LocationManager: NSObject {
     var currentLocation = CLLocation()
     
     let geoCoder = CLGeocoder()
+    
+    var delegate: LocationManagerDelegate?
     
     private override init() {
         super.init()
@@ -28,31 +34,40 @@ class LocationManager: NSObject {
         manager.startUpdatingLocation()
     }
     
-    func fetchCityName() async throws -> String? {
+    func stop() {
+        manager.stopUpdatingLocation()
+        print("Location updation stopped.")
+    }
+    
+    func fetchCity() async throws -> City? {
+        
         let placemark = try await geoCoder.reverseGeocodeLocation(currentLocation)
         
         let firstPlace = placemark.first
-
-        return firstPlace?.subAdministrativeArea
+        
+        let city = firstPlace?.subAdministrativeArea
+        let country = firstPlace?.country
+        
+        if let city = city, let country = country {
+            return City(name: city, country: Country(name: country, localizedName: nil), localizedName: nil)
+        } else {
+            return nil
+        }
     }
 }
 
 extension LocationManager: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("Wor")
         guard let location = locations.last else { return }
         self.currentLocation = location
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Fail With Error")
+        delegate?.locationManager(manager, didUpdateLocations: locations)
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         let status = manager.authorizationStatus
-        if status == .authorizedAlways || status == .authorizedWhenInUse {
-            print("Location On")
+        if status == .denied || status == .restricted {
+            LocationManager.shared.stop()
         }
     }
 }

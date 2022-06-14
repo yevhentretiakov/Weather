@@ -8,8 +8,11 @@
 import UIKit
 import CoreLocation
 
+protocol SearchVCDelegate {
+    func didSelectCity(city: City)
+}
+
 class ViewController: UIViewController {
-    
     @IBOutlet weak var cityNameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var maxTempLabel: UILabel!
@@ -23,28 +26,48 @@ class ViewController: UIViewController {
     @IBOutlet weak var dayWeatherTableView: UITableView!
     
     var activeDay = 0
-    var defaultCity = "Kyiv"
-
+    var currentCity = City(name: "Kyiv", country: Country(name: "Ukraine", localizedName: nil), localizedName: nil)
+    
     var weatherDays = [Day]()
     var hoursInfo = [Hour]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tryToGetCityByGeo()
+        LocationManager.shared.delegate = self
+        LocationManager.shared.start()
+        
+        specifyWeatherOnLaunch()
         
         timeWeatherCollectionView.register(UINib.init(nibName: TimeWeatherCell.reuseID, bundle: nil), forCellWithReuseIdentifier: TimeWeatherCell.reuseID)
         dayWeatherTableView.register(UINib.init(nibName: DayWeatherCell.reuseID, bundle: nil), forCellReuseIdentifier: DayWeatherCell.reuseID)
     }
     
-    func tryToGetCityByGeo() {
-        LocationManager.shared.start()
+    @IBAction func toSearchTapped(_ sender: Any) {
+        impactOccured(style: .light)
+        LocationManager.shared.stop()
+        performSegue(withIdentifier: "goToSearch", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let firstVC = segue.destination as? SearchVC {
+            firstVC.delegate = self
+        }
+    }
+    
+    func specifyWeatherOnLaunch() {
+        localizeCity()
+        getWeatherByGeo()
+    }
+    
+    func getWeatherByGeo() {
         Task {
             do {
-                if let city = try await LocationManager.shared.fetchCityName() {
-                    fetchWeather(cityName: city)
+                if let cityByGeo = try await LocationManager.shared.fetchCity() {
+                    fetchWeather(city: cityByGeo)
+                    LocationManager.shared.stop()
                 } else {
-                    fetchWeather(cityName: defaultCity)
+                    fetchWeather(city: currentCity)
                 }
             } catch {
                 print("error")
@@ -52,11 +75,24 @@ class ViewController: UIViewController {
         }
     }
     
-    func fetchWeather(cityName: String) {
+    func localizeCity() {
+        let locale = Locale.current.languageCode
+        
+        if locale == "ru" {
+            currentCity.localizedName = "Киев"
+        } else if locale == "uk" {
+            currentCity.localizedName = "Київ"
+        }
+    }
+    
+    func fetchWeather(city: City) {
         Task {
             do {
-                self.weatherDays = try await WeatherManager.shared.fetchWeather(cityName: cityName)
-                updateUI(cityName: cityName, date: Date())
+                self.weatherDays = try await WeatherManager.shared.fetchWeather(cityName: city.name)
+                
+                currentCity = city
+                updateUI(date: Date())
+               
                 dayWeatherTableView.reloadData()
                 timeWeatherCollectionView.reloadData()
                 selectFirstRow()
@@ -66,14 +102,14 @@ class ViewController: UIViewController {
         }
     }
     
-    func updateUI(cityName: String, date: Date) {
+    func updateUI(date: Date) {
         
         dateLabel.text = date.extract("E, dd MMMM")
         
         let day = weatherDays[activeDay]
         hoursInfo = day.hours.sorted(by: { $0.datetimeEpoch < $1.datetimeEpoch })
-
-        cityNameLabel.text = cityName
+        
+        cityNameLabel.text = currentCity.localizedName ?? currentCity.name
         
         weatherImage.image = UIImage(systemName: day.image)
         maxTempLabel.text = String(format: "%.0f", weatherDays[activeDay].tempmax)
@@ -86,6 +122,22 @@ class ViewController: UIViewController {
     func selectFirstRow() {
         
         dayWeatherTableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: UITableView.ScrollPosition(rawValue: 0)!)
+    }
+}
+
+extension ViewController: SearchVCDelegate {
+    
+    func didSelectCity(city: City) {
+        
+        fetchWeather(city: city)
+    }
+}
+
+extension ViewController: LocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        getWeatherByGeo()
     }
 }
 
@@ -148,13 +200,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let generator = UIImpactFeedbackGenerator(style: .light)
-        generator.impactOccurred()
+        impactOccured(style: .light)
         
         activeDay = indexPath.row
         if let date = Date().date(byAdding: .day, value: indexPath.row) {
-            self.updateUI(cityName: "Kyiv", date: date)
+            self.updateUI(date: date)
         }
         timeWeatherCollectionView.reloadData()
     }
 }
+

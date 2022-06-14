@@ -17,7 +17,11 @@ class WeatherManager {
     
     func fetchWeather(cityName: String) async throws -> [Day] {
         
-        let endPoint = "\(baseURL)\(cityName)?unitGroup=metric&key=PZXRTV7AHTLXDM6AJFFESATCB&contentType=json"
+        guard let encodedCityName = cityName.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed) else {
+            throw ErrorMessage.error
+        }
+        
+        let endPoint = "\(baseURL)\(encodedCityName)?unitGroup=metric&key=PZXRTV7AHTLXDM6AJFFESATCB&contentType=json"
         
         guard let url = URL(string: endPoint) else {
             
@@ -27,7 +31,7 @@ class WeatherManager {
         let (data, response) = try await URLSession.shared.data(from: url)
         
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-
+            print("Nothing found with this name")
             throw ErrorMessage.error
         }
         

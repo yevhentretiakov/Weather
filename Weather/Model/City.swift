@@ -9,9 +9,11 @@ import Foundation
 
 struct City: Codable {
     let name: String
-    let country: AdminDivision1
+    let country: Country
+    var localizedName: String?
 }
 
-struct AdminDivision1: Codable {
+struct Country: Codable {
     let name: String
+    let localizedName: String?
 }
