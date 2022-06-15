@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  Weather
+
+  Created by user on 15.06.2022.
+  
+*/
+
+"unableToComplete" = "Unable to complete your request. Please try again.";
+"invalidResponse" = "Invalid response from the server. Please try again.";
+"invalidData" = "The data received from the server was invalid. Please try again.";
+"nothingFind" = "We couldn't find anything for that search.";
+"emptySearch" = "Enter something in the search field and try again.";

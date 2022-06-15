@@ -36,7 +36,6 @@ class LocationManager: NSObject {
     
     func stop() {
         manager.stopUpdatingLocation()
-        print("Location updation stopped.")
     }
     
     func fetchCity() async throws -> City? {

@@ -22,7 +22,7 @@ extension UIViewController {
     func presentAlert(message: ErrorMessage) {
         notificationOccurred(style: .error)
         let vc = AlertVC()
-        vc.message = message.rawValue
+        vc.message = NSLocalizedString(message.rawValue, comment: "")
         vc.modalPresentationStyle = .overFullScreen
         vc.modalTransitionStyle = .crossDissolve
         present(vc, animated: true)

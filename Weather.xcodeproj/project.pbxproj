@@ -11,6 +11,7 @@
 		CE37890F2859F33800348403 /* AlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE37890D2859F33800348403 /* AlertVC.swift */; };
 		CE3789102859F33800348403 /* AlertVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE37890E2859F33800348403 /* AlertVC.xib */; };
 		CE378913285A032800348403 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CE378915285A032800348403 /* InfoPlist.strings */; };
+		CE378919285A058D00348403 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CE37891B285A058D00348403 /* Localizable.strings */; };
 		CE5F3B1F2850D99B00ECBE0C /* TimeWeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5F3B1D2850D99B00ECBE0C /* TimeWeatherCell.swift */; };
 		CE5F3B202850D99B00ECBE0C /* TimeWeatherCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE5F3B1E2850D99B00ECBE0C /* TimeWeatherCell.xib */; };
 		CE5F3B252850DC9700ECBE0C /* DayWeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5F3B232850DC9700ECBE0C /* DayWeatherCell.swift */; };
@@ -43,6 +44,9 @@
 		CE37890E2859F33800348403 /* AlertVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertVC.xib; sourceTree = "<group>"; };
 		CE378914285A032800348403 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CE378916285A032A00348403 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CE37891A285A058D00348403 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CE37891C285A058F00348403 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CE37891D285A059000348403 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CE5F3B1D2850D99B00ECBE0C /* TimeWeatherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeWeatherCell.swift; sourceTree = "<group>"; };
 		CE5F3B1E2850D99B00ECBE0C /* TimeWeatherCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TimeWeatherCell.xib; sourceTree = "<group>"; };
 		CE5F3B232850DC9700ECBE0C /* DayWeatherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayWeatherCell.swift; sourceTree = "<group>"; };
@@ -159,6 +163,7 @@
 				CE5F3B272850DE4E00ECBE0C /* Screens */,
 				CE86E9662850AE4500992643 /* Main.storyboard */,
 				CE80BF3E28589A8400F344F1 /* Info.plist */,
+				CE37891B285A058D00348403 /* Localizable.strings */,
 				CE378915285A032800348403 /* InfoPlist.strings */,
 			);
 			path = Weather;
@@ -266,6 +271,7 @@
 				CE378913285A032800348403 /* InfoPlist.strings in Resources */,
 				CE5F3B262850DC9700ECBE0C /* DayWeatherCell.xib in Resources */,
 				CE86E96A2850AE4700992643 /* Assets.xcassets in Resources */,
+				CE378919285A058D00348403 /* Localizable.strings in Resources */,
 				CE86E9682850AE4500992643 /* Main.storyboard in Resources */,
 				CE84A1E42855EC06006FD521 /* CitySearchCell.xib in Resources */,
 				CE5F3B202850D99B00ECBE0C /* TimeWeatherCell.xib in Resources */,
@@ -311,6 +317,16 @@
 				CE378916285A032A00348403 /* uk */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		CE37891B285A058D00348403 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE37891A285A058D00348403 /* ru */,
+				CE37891C285A058F00348403 /* en */,
+				CE37891D285A059000348403 /* uk */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		CE86E9662850AE4500992643 /* Main.storyboard */ = {

@@ -31,7 +31,6 @@ class WeatherManager {
         let (data, response) = try await URLSession.shared.data(from: url)
         
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            print("Nothing found with this name")
             throw ErrorMessage.invalidResponse
         }
         
