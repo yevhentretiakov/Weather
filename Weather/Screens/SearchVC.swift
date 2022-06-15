@@ -42,14 +42,22 @@ class SearchVC: UIViewController {
             view.endEditing(true)
             Task {
                 do {
+                    
                     self.cities = try await PlaceSearchManager.shared.fetchCities(prefix: text)
+                    
+                    if self.cities.isEmpty {
+                        presentAlert(message: ErrorMessage.nothingFind)
+                    }
+                    
                     citiesTableView.reloadData()
                 } catch {
-                    print("Error")
+                    if let error = error as? ErrorMessage {
+                        presentAlert(message: error)
+                    }
                 }
             }
         } else {
-            notificationOccurred(style: .error)
+            presentAlert(message: ErrorMessage.emptySearch)
         }
     }
 }

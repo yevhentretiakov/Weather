@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  Weather
+
+  Created by user on 15.06.2022.
+  
+*/
+
+NSLocationWhenInUseUsageDescription = "Нам потрібне ваше місцезнаходження, щоб дізнатися погоду у вашому місті.";
+NSLocationAlwaysAndWhenInUseUsageDescription = "Нам потрібне ваше місцезнаходження, щоб дізнатися погоду у вашому місті.";

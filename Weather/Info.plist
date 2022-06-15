@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Нам нужно ваше местоположение, чтобы получить погоду в вашем городе.</string>
+	<string>We need your location to get the weather in your city.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Нам нужно ваше местоположение, чтобы получить погоду в вашем городе.</string>
+	<string>We need your location to get the weather in your city.</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

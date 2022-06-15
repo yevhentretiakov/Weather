@@ -37,7 +37,9 @@ class ViewController: UIViewController {
         LocationManager.shared.delegate = self
         LocationManager.shared.start()
         
-        specifyWeatherOnLaunch()
+        localizeCity()
+        getWeatherByGeo()
+        
         
         timeWeatherCollectionView.register(UINib.init(nibName: TimeWeatherCell.reuseID, bundle: nil), forCellWithReuseIdentifier: TimeWeatherCell.reuseID)
         dayWeatherTableView.register(UINib.init(nibName: DayWeatherCell.reuseID, bundle: nil), forCellReuseIdentifier: DayWeatherCell.reuseID)
@@ -54,12 +56,7 @@ class ViewController: UIViewController {
             firstVC.delegate = self
         }
     }
-    
-    func specifyWeatherOnLaunch() {
-        localizeCity()
-        getWeatherByGeo()
-    }
-    
+
     func getWeatherByGeo() {
         Task {
             do {
@@ -70,7 +67,7 @@ class ViewController: UIViewController {
                     fetchWeather(city: currentCity)
                 }
             } catch {
-                print("error")
+                print("Cant get weather by geo.")
             }
         }
     }
@@ -95,9 +92,12 @@ class ViewController: UIViewController {
                
                 dayWeatherTableView.reloadData()
                 timeWeatherCollectionView.reloadData()
-                selectFirstRow()
+                
+                dayWeatherTableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: UITableView.ScrollPosition(rawValue: 0)!)
             } catch {
-                print("Error")
+                if let error = error as? ErrorMessage {
+                    presentAlert(message: error)
+                }
             }
         }
     }
@@ -117,11 +117,6 @@ class ViewController: UIViewController {
         humidityLabel.text =  String(format: "%.0f", weatherDays[activeDay].humidity)
         windSpeedLabel.text =  String(format: "%.0f", weatherDays[activeDay].windspeed)
         windDirectionImage.image = UIImage(systemName: day.windImage)
-    }
-    
-    func selectFirstRow() {
-        
-        dayWeatherTableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: UITableView.ScrollPosition(rawValue: 0)!)
     }
 }
 

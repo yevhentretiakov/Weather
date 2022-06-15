@@ -25,13 +25,13 @@ class PlaceSearchManager {
         let lang = Locale.current.languageCode ?? "en"
         
         guard let encodedPrefix = prefix.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed) else {
-            throw ErrorMessage.error
+            throw ErrorMessage.unableToComplete
         }
         
         let endPoint = baseURL + "autocomplete?limit=100&skip=0&language=\(lang)&type=CITY&q=\(encodedPrefix)"
         
         guard let url = URL(string: endPoint) else {
-            throw ErrorMessage.error
+            throw ErrorMessage.unableToComplete
         }
         
         var request = URLRequest(url: url)
@@ -40,7 +40,7 @@ class PlaceSearchManager {
         let (data, response) = try await URLSession.shared.data(for: request)
         
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            throw ErrorMessage.error
+            throw ErrorMessage.invalidResponse
         }
         
         do {
@@ -48,7 +48,7 @@ class PlaceSearchManager {
             let cities = try decoder.decode([City].self, from: data)
             return cities
         } catch {
-            throw ErrorMessage.error
+            throw ErrorMessage.invalidData
         }
     }
 }

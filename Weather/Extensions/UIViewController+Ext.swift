@@ -19,9 +19,10 @@ extension UIViewController {
         generator.notificationOccurred(style)
     }
     
-    func presentAlert(message: String) {
+    func presentAlert(message: ErrorMessage) {
+        notificationOccurred(style: .error)
         let vc = AlertVC()
-        vc.message = message
+        vc.message = message.rawValue
         vc.modalPresentationStyle = .overFullScreen
         vc.modalTransitionStyle = .crossDissolve
         present(vc, animated: true)

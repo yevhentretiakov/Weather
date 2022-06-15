@@ -35,6 +35,7 @@ class AlertVC: UIViewController {
     }
     
     @IBAction func buttonTapped(_ sender: Any) {
+        impactOccured(style: .light)
         dismiss(animated: true)
     }
 }
