@@ -46,7 +46,7 @@
 		CE378916285A032A00348403 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CE37891A285A058D00348403 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CE37891C285A058F00348403 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		CE37891D285A059000348403 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CE37891E285A0B2000348403 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CE5F3B1D2850D99B00ECBE0C /* TimeWeatherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeWeatherCell.swift; sourceTree = "<group>"; };
 		CE5F3B1E2850D99B00ECBE0C /* TimeWeatherCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TimeWeatherCell.xib; sourceTree = "<group>"; };
 		CE5F3B232850DC9700ECBE0C /* DayWeatherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayWeatherCell.swift; sourceTree = "<group>"; };
@@ -324,7 +324,7 @@
 			children = (
 				CE37891A285A058D00348403 /* ru */,
 				CE37891C285A058F00348403 /* en */,
-				CE37891D285A059000348403 /* uk */,
+				CE37891E285A0B2000348403 /* uk */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

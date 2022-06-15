@@ -23,7 +23,6 @@ class SearchVC: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
         searchTextField.becomeFirstResponder()
     }
     
@@ -33,16 +32,15 @@ class SearchVC: UIViewController {
     }
     
     @IBAction func searchTapped(_ sender: UIButton) {
-        searchCities()
+        impactOccured(style: .light)
+        tryGetCities()
     }
     
-    func searchCities() {
+    func tryGetCities() {
         if let text = searchTextField.text, !text.isEmpty {
-            impactOccured(style: .light)
             view.endEditing(true)
             Task {
                 do {
-                    
                     self.cities = try await PlaceSearchManager.shared.fetchCities(prefix: text)
                     
                     if self.cities.isEmpty {
@@ -64,7 +62,7 @@ class SearchVC: UIViewController {
 
 extension SearchVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        searchCities()
+        tryGetCities()
         return true
     }
 }
