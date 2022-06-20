@@ -8,11 +8,18 @@
 import Foundation
 
 struct WeatherData: Codable {
-    let address: String
-    let days: [Day]
+    let latitude: Double
+    let longitude: Double
+    let days: [DayWeather]
 }
 
-struct Day: Codable {
+protocol DateWeather {
+    var datetimeEpoch: Int { get }
+    var temp: Double { get }
+    var icon: String { get }
+}
+
+struct DayWeather: Codable, DateWeather {
     let datetimeEpoch: Int
     let tempmax: Double
     let tempmin: Double
@@ -21,33 +28,8 @@ struct Day: Codable {
     let windspeed: Double
     let winddir: Double
     let icon: String
-    let hours: [Hour]
-    
-    var image: String {
-        switch self.icon {
-        case "snow":
-            return "cloud.snow"
-        case "rain":
-            return "cloud.rain"
-        case "fog":
-            return "cloud.fog"
-        case "wind":
-            return "wind"
-        case "cloudy":
-            return "smoke"
-        case "partly-cloudy-day":
-            return "cloud.sun"
-        case "partly-cloudy-night":
-            return "cloud.moon"
-        case "clear-day":
-            return "cloud.sun"
-        case "clear-night":
-            return "cloud.moon"
-        
-        default:
-            return "cloud"
-        }
-    }
+    let hours: [HourWeather]
+
     var windImage: String {
         switch winddir {
         case 22.5...67.5:
@@ -69,15 +51,16 @@ struct Day: Codable {
         default:
             return "arrow.up"
         }
-        
     }
 }
 
-struct Hour: Codable {
+struct HourWeather: Codable, DateWeather {
     let datetimeEpoch: Int
     let temp: Double
     let icon: String
-    
+}
+
+extension DateWeather {
     var image: String {
         switch self.icon {
         case "snow":

@@ -9,18 +9,17 @@ import Foundation
 import CoreLocation
 
 protocol LocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager)
 }
 
-class LocationManager: NSObject {
-    
-    private let manager = CLLocationManager()
+final class LocationManager: NSObject {
     
     static let shared = LocationManager()
     
-    var currentLocation = CLLocation()
+    private let manager = CLLocationManager()
+    private let geoCoder = CLGeocoder()
     
-    let geoCoder = CLGeocoder()
+    private var lastLocation: CLLocation?
     
     var delegate: LocationManagerDelegate?
     
@@ -38,19 +37,23 @@ class LocationManager: NSObject {
         manager.stopUpdatingLocation()
     }
     
-    func fetchCity() async throws -> City? {
+    func fetchArea(location: CLLocation) async throws -> Area {
         
-        let placemark = try await geoCoder.reverseGeocodeLocation(currentLocation)
+        let placemark = try await geoCoder.reverseGeocodeLocation(location)
         
         let firstPlace = placemark.first
         
-        let city = firstPlace?.subAdministrativeArea
+        let adminArea = firstPlace?.subAdministrativeArea
         let country = firstPlace?.country
         
-        if let city = city, let country = country {
-            return City(name: city, country: Country(name: country, localizedName: nil), localizedName: nil)
+        let latitude = location.coordinate.latitude
+        let longitude = location.coordinate.longitude
+        
+        if adminArea != nil || country != nil {
+            let coordinate = Coordinate(latitude: latitude, longitude: longitude)
+            return Area(adminArea: adminArea, country: country, coordinate: coordinate)
         } else {
-            return nil
+            throw ErrorMessage.cantGetArea
         }
     }
 }
@@ -59,14 +62,10 @@ extension LocationManager: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
-        self.currentLocation = location
-        delegate?.locationManager(manager, didUpdateLocations: locations)
+        self.lastLocation = location
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        let status = manager.authorizationStatus
-        if status == .denied || status == .restricted {
-            LocationManager.shared.stop()
-        }
+        delegate?.locationManagerDidChangeAuthorization(manager)
     }
 }

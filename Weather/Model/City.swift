@@ -11,6 +11,7 @@ struct City: Codable {
     let name: String
     let country: Country
     var localizedName: String?
+    let coordinates: Coordinate
 }
 
 struct Country: Codable {

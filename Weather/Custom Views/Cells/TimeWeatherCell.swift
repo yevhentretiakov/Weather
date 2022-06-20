@@ -20,7 +20,7 @@ class TimeWeatherCell: UICollectionViewCell {
         
     }
     
-    func set(hour: Hour, index: Int) {
+    func set(hour: HourWeather, index: Int) {
         if index < 10 {
             timeLabel.text = "0\(index)"
         } else {

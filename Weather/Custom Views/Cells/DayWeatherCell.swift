@@ -27,7 +27,7 @@ class DayWeatherCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
+
         if selected {
             layer.masksToBounds = false
             layer.shadowColor = UIColor(named: AppColor.lightBlue.rawValue)?.cgColor
@@ -35,7 +35,7 @@ class DayWeatherCell: UITableViewCell {
             layer.shadowOffset = .zero
             layer.shadowRadius = 15
             layer.zPosition = 50
-            
+
             dayLabel.textColor = UIColor(named: AppColor.blue.rawValue)
             maxTempLabel.textColor = UIColor(named: AppColor.blue.rawValue)
             minTempLabel.textColor = UIColor(named: AppColor.blue.rawValue)
@@ -45,7 +45,7 @@ class DayWeatherCell: UITableViewCell {
         } else {
             layer.shadowOpacity = 0.0
             layer.zPosition = 1
-            
+
             dayLabel.textColor = UIColor.black
             maxTempLabel.textColor = UIColor.black
             minTempLabel.textColor = UIColor.black
@@ -55,7 +55,7 @@ class DayWeatherCell: UITableViewCell {
         }
     }
     
-    func set(day: Day) {
+    func set(day: DayWeather) {
         
         dayLabel.text = day.datetimeEpoch.toDate.extract("E").uppercased()
         maxTempLabel.text = String(format: "%.0f", day.tempmax)

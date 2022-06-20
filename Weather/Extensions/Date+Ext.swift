@@ -21,5 +21,9 @@ extension Date {
         let calendar = Calendar.current
         return calendar.date(byAdding: component, value: value, to: self)
     }
+    
+    func isSameDayAs(_ date: Date) -> Bool {
+        Calendar.current.isDate(self, inSameDayAs: date)
+    }
 }
 

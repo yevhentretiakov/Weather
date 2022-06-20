@@ -12,8 +12,15 @@ class SearchVC: UIViewController {
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var citiesTableView: UITableView!
     
-    var cities = [City]()
-    var delegate: SearchVCDelegate!
+    var cities = [City]() {
+        didSet {
+            citiesTableView.reloadData()
+        }
+    }
+    
+    var delegate: ViewControllerDelegate!
+    
+    var searchTimer: Timer? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,22 +39,28 @@ class SearchVC: UIViewController {
     }
     
     @IBAction func searchTapped(_ sender: UIButton) {
+        performSearch()
+    }
+    
+    func performSearch() {
         impactOccured(style: .light)
-        tryGetCities()
+        
+        if let text = searchTextField.text, text.isEmpty {
+            presentAlert(message: ErrorMessage.emptySearch)
+        } else {
+            tryGetCities()
+        }
     }
     
     func tryGetCities() {
         if let text = searchTextField.text, !text.isEmpty {
-            view.endEditing(true)
             Task {
                 do {
-                    self.cities = try await PlaceSearchManager.shared.fetchCities(prefix: text)
+                    self.cities = try await NetworkManager.shared.fetch(from: .getCities(prefx: text))
                     
                     if self.cities.isEmpty {
                         presentAlert(message: ErrorMessage.nothingFind)
                     }
-                    
-                    citiesTableView.reloadData()
                 } catch {
                     if let error = error as? ErrorMessage {
                         presentAlert(message: error)
@@ -55,18 +68,41 @@ class SearchVC: UIViewController {
                 }
             }
         } else {
-            presentAlert(message: ErrorMessage.emptySearch)
+            if !cities.isEmpty {
+                self.cities.removeAll()
+            }
+        }
+    }
+    
+    func stopSearchTimer() {
+        searchTimer?.invalidate()
+        searchTimer = nil
+    }
+    
+    func startSearchTimer() {
+        searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
+            self.tryGetCities()
         }
     }
 }
 
+// MARK: -
 extension SearchVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        tryGetCities()
+        performSearch()
         return true
+    }
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if searchTimer != nil {
+            stopSearchTimer()
+        }
+        
+        startSearchTimer()
     }
 }
 
+// MARK: -
 extension SearchVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -89,7 +125,12 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         impactOccured(style: .light)
         let city = cities[indexPath.row]
-        delegate.didSelectCity(city: city)
+        let adminArea = city.localizedName ?? city.name
+        let country = city.country.localizedName ?? city.country.name
+        let coordinate = city.coordinates
+        
+        let area = Area(adminArea: adminArea, country: country, coordinate: coordinate)
+        delegate.didSelectArea(area: area)
         dismiss(animated: true)
     }
 }
