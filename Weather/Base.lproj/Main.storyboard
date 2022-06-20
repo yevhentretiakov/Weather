@@ -86,7 +86,7 @@
                                 <rect key="frame" x="15" y="59" width="384" height="30"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="veQ-GI-mUD">
-                                        <rect key="frame" x="0.0" y="0.0" width="35" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="85" height="30"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Grl-Zx-16F">
                                                 <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
@@ -100,8 +100,8 @@
                                                     <action selector="toMapTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2Pv-j8-ghI"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AEI-CA-sl7">
-                                                <rect key="frame" x="35" y="0.0" width="0.0" height="30"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AEI-CA-sl7">
+                                                <rect key="frame" x="35" y="0.0" width="50" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -296,7 +296,7 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="f0p-mU-LMx"/>
                                 </connections>
                             </collectionView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="fTe-mY-cG1">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="fTe-mY-cG1">
                                 <rect key="frame" x="0.0" y="484" width="414" height="412"/>
                                 <color key="backgroundColor" name="AppWhite"/>
                                 <prototypes>
@@ -319,7 +319,6 @@
                         <color key="backgroundColor" name="AppBlue"/>
                         <constraints>
                             <constraint firstItem="EKD-dn-2sR" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Hgs-Db-uIM"/>
-                            <constraint firstAttribute="bottom" secondItem="fTe-mY-cG1" secondAttribute="bottom" id="Jfe-sc-YMs"/>
                             <constraint firstItem="5zD-2L-EZN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="OlL-B3-RNH"/>
                             <constraint firstItem="Get-pv-cSG" firstAttribute="top" secondItem="hQk-FQ-MFF" secondAttribute="bottom" constant="40" id="QMZ-Y9-Lc3"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="5zD-2L-EZN" secondAttribute="trailing" constant="15" id="VoH-dN-wZK"/>

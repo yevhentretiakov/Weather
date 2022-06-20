@@ -54,11 +54,12 @@ class ViewController: UIViewController {
         hourlyWeatherCollectionView.register(UINib.init(nibName: TimeWeatherCell.reuseID, bundle: nil), forCellWithReuseIdentifier: TimeWeatherCell.reuseID)
         dailyWeatherTableView.register(UINib.init(nibName: DayWeatherCell.reuseID, bundle: nil), forCellReuseIdentifier: DayWeatherCell.reuseID)
     }
-   
+    
     func getWeather(area: Area) {
         Task {
             do {
-                let data: WeatherData = try await NetworkManager.shared.fetch(from: .getWeather(area: area))
+                let areaName = area.name
+                let data: WeatherData = try await NetworkManager.shared.fetch(from: .getWeather(areaName: areaName))
                 self.currentArea = area
                 self.dailyWeather = data.days
             } catch {

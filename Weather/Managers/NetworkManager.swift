@@ -25,7 +25,7 @@ protocol HTTPRequest {
 
 enum ApiEndpoint {
     
-    case getWeather(area: Area)
+    case getWeather(areaName: String)
     case getCities(prefx: String)
 }
 
@@ -33,10 +33,10 @@ extension ApiEndpoint: HTTPRequest {
     
     var url: String {
         switch self {
-        case .getWeather(let area):
+        case .getWeather(let areaName):
             let baseURL: String = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services"
             let path: String = "/timeline"
-            let encodedCityName = area.name.urlEncode
+            let encodedCityName = areaName.urlEncode
             return baseURL + path + "/" + encodedCityName
         case .getCities(_):
             let baseURL: String = "https://spott.p.rapidapi.com/places"

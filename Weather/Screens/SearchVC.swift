@@ -57,10 +57,6 @@ class SearchVC: UIViewController {
             Task {
                 do {
                     self.cities = try await NetworkManager.shared.fetch(from: .getCities(prefx: text))
-                    
-                    if self.cities.isEmpty {
-                        presentAlert(message: ErrorMessage.nothingFind)
-                    }
                 } catch {
                     if let error = error as? ErrorMessage {
                         presentAlert(message: error)
@@ -86,7 +82,7 @@ class SearchVC: UIViewController {
     }
 }
 
-// MARK: -
+// MARK: - Search Textfield Delegate
 extension SearchVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         performSearch()
@@ -102,7 +98,7 @@ extension SearchVC: UITextFieldDelegate {
     }
 }
 
-// MARK: -
+// MARK: - CitiesTableView Delegate&DataSource
 extension SearchVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
