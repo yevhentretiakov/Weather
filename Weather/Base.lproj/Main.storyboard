@@ -296,7 +296,7 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="f0p-mU-LMx"/>
                                 </connections>
                             </collectionView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="fTe-mY-cG1">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="fTe-mY-cG1">
                                 <rect key="frame" x="0.0" y="484" width="414" height="412"/>
                                 <color key="backgroundColor" name="AppWhite"/>
                                 <prototypes>
@@ -323,6 +323,7 @@
                             <constraint firstItem="Get-pv-cSG" firstAttribute="top" secondItem="hQk-FQ-MFF" secondAttribute="bottom" constant="40" id="QMZ-Y9-Lc3"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="5zD-2L-EZN" secondAttribute="trailing" constant="15" id="VoH-dN-wZK"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="fTe-mY-cG1" secondAttribute="trailing" id="WeD-cx-PNf"/>
+                            <constraint firstAttribute="bottom" secondItem="fTe-mY-cG1" secondAttribute="bottom" id="aCT-r9-kaU"/>
                             <constraint firstItem="fTe-mY-cG1" firstAttribute="top" secondItem="EKD-dn-2sR" secondAttribute="bottom" id="bG1-l8-5Ps"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="EKD-dn-2sR" secondAttribute="trailing" id="bfh-Y1-sbG"/>
                             <constraint firstItem="hQk-FQ-MFF" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="jCD-g8-HZg"/>

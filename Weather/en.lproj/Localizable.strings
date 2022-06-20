@@ -11,3 +11,5 @@
 "invalidData" = "The data received from the server was invalid. Please try again.";
 "nothingFind" = "We couldn't find anything for that search.";
 "emptySearch" = "Enter something in the search field and try again.";
+"cantGetGeo" = "We cant get city by geo so try manual selection!";
+"cantGetArea" = "We cant get administrative area by this point. Please try again.";

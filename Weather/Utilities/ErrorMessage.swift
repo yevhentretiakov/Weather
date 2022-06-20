@@ -13,7 +13,6 @@ enum ErrorMessage: String, Error {
     case invalidData = "invalidData"
     case nothingFind = "nothingFind"
     case emptySearch = "emptySearch"
-    
-    case cantGetGeo = "We cant get city by geo so try manual selection!"
-    case cantGetArea = "We cant get administrative area by this point. Please try again."
+    case cantGetGeo = "cantGetGeo"
+    case cantGetArea = "cantGetArea"
 }
