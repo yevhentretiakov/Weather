@@ -26,6 +26,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var hourlyWeatherCollectionView: UICollectionView!
     @IBOutlet weak var dailyWeatherTableView: UITableView!
     
+    @IBOutlet weak var currentAreaStack: UIStackView!
+    
     var currentArea: Area?
     
     var dailyWeather = [DayWeather]() {
@@ -35,7 +37,6 @@ class ViewController: UIViewController {
             reloadDayWeahterTableView()
         }
     }
-    
     var hourlyWeather = [HourWeather]()
     
     override func viewDidLoad() {
@@ -43,6 +44,7 @@ class ViewController: UIViewController {
         
         startLocationServices()
         registerNibs()
+        addGestureForAreaLabel()
     }
     
     func startLocationServices() {
@@ -55,21 +57,32 @@ class ViewController: UIViewController {
         dailyWeatherTableView.register(UINib.init(nibName: DayWeatherCell.reuseID, bundle: nil), forCellReuseIdentifier: DayWeatherCell.reuseID)
     }
     
+    func addGestureForAreaLabel() {
+        let gesture = UITapGestureRecognizer(target: self, action:  #selector(toMapTapped))
+        currentAreaStack.addGestureRecognizer(gesture)
+    }
+    
     func getWeather(area: Area) {
         Task {
-            do {
-                let areaName = area.name
-                let data: WeatherData = try await NetworkManager.shared.fetch(from: .getWeather(areaName: areaName))
-                self.currentArea = area
-                self.dailyWeather = data.days
-            } catch {
-                if let error = error as? ErrorMessage {
-                    presentAlert(message: error)
+            
+            // The request by the name of the city can throw, in this case we make a request by the name of the country
+            for (index, areaName) in area.availableNamesList.enumerated() {
+                do {
+                    let data: WeatherData = try await NetworkManager.shared.fetch(from: .getWeather(areaName: areaName))
+                    self.currentArea = area
+                    self.dailyWeather = data.days
+                    break
+                } catch {
+                    // If current area name was last in array and thrown then show an error, else try the next area name
+                    if let error = error as? ErrorMessage, index == area.availableNamesList.count - 1 {
+                        presentAlert(message: error)
+                    }
                 }
             }
         }
     }
     
+    // UI updation methods
     func updateUI(date: Date) {
         dateLabel.text = date.extract("E, dd MMMM")
         
@@ -79,8 +92,8 @@ class ViewController: UIViewController {
         
         hourlyWeather = day.hours.sorted(by: { $0.datetimeEpoch < $1.datetimeEpoch })
         
-        if let area = currentArea {
-            cityNameLabel.text = area.name
+        if let area = currentArea, let availableName = area.availableName {
+            cityNameLabel.text = availableName
         }
         
         weatherImage.image = UIImage(systemName: day.image)
@@ -100,7 +113,8 @@ class ViewController: UIViewController {
         hourlyWeatherCollectionView.reloadData()
     }
     
-    @IBAction func toMapTapped(_ sender: UIButton) {
+    // NavigationBar buttons methods
+    @objc func toMapTapped() {
         impactOccured(style: .light)
         performSegue(withIdentifier: "presentMapVC", sender: self)
     }

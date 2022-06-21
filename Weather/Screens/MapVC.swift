@@ -21,8 +21,7 @@ class MapVC: UIViewController {
         
         showCurrentLocation()
         addPin()
-        
-        mapView.delegate = self
+        configureMapView()
         configureMapTapGesture()
     }
     
@@ -56,6 +55,10 @@ class MapVC: UIViewController {
         }
     }
     
+    func configureMapView() {
+        mapView.delegate = self
+    }
+    
     func configureMapTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         mapView.addGestureRecognizer(tapGesture)
@@ -72,6 +75,7 @@ class MapVC: UIViewController {
         Task {
             do {
                 let area = try await LocationManager.shared.fetchArea(location: loc)
+                print(area)
                 delegate?.didSelectArea(area: area)
                 dismiss(animated: true)
             } catch {
@@ -82,6 +86,7 @@ class MapVC: UIViewController {
         }
     }
     
+    // NavigationBar buttons methods
     @IBAction func showCurrentLocation(_ sender: UIButton) {
         impactOccured(style: .light)
         showCurrentLocation()

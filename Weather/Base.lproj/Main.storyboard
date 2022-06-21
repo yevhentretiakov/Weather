@@ -88,18 +88,14 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="veQ-GI-mUD">
                                         <rect key="frame" x="0.0" y="0.0" width="85" height="30"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Grl-Zx-16F">
-                                                <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="30" id="AfE-So-ca1"/>
-                                                </constraints>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mappin.and.ellipse" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="SYl-O8-19e">
+                                                <rect key="frame" x="0.0" y="-0.5" width="30" height="30.5"/>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" image="mappin.and.ellipse" catalog="system"/>
-                                                <connections>
-                                                    <action selector="toMapTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2Pv-j8-ghI"/>
-                                                </connections>
-                                            </button>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="757-iw-M8q"/>
+                                                    <constraint firstAttribute="width" constant="30" id="pTV-hh-0W2"/>
+                                                </constraints>
+                                            </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AEI-CA-sl7">
                                                 <rect key="frame" x="35" y="0.0" width="50" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
@@ -338,6 +334,7 @@
                     </view>
                     <connections>
                         <outlet property="cityNameLabel" destination="AEI-CA-sl7" id="dcp-c1-nSs"/>
+                        <outlet property="currentAreaStack" destination="veQ-GI-mUD" id="cd8-K8-0gU"/>
                         <outlet property="dailyWeatherTableView" destination="fTe-mY-cG1" id="b5x-Oy-teQ"/>
                         <outlet property="dateLabel" destination="hQk-FQ-MFF" id="hIb-Xm-9L3"/>
                         <outlet property="hourlyWeatherCollectionView" destination="EKD-dn-2sR" id="tDS-zH-Uoe"/>
@@ -439,6 +436,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="ny0-Jd-PeQ"/>
                     <connections>
+                        <outlet property="citiesTableBottomConstraint" destination="mQ2-8d-Tcp" id="koi-AP-QHR"/>
                         <outlet property="citiesTableView" destination="z40-NB-FYM" id="Gel-Dz-q9t"/>
                         <outlet property="searchTextField" destination="fJD-J6-Nzq" id="vIz-zJ-0NI"/>
                     </connections>

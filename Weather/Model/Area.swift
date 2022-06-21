@@ -14,7 +14,19 @@ struct Area {
 }
 
 extension Area {
-    var name: String {
-        adminArea ?? country ?? ""
+    var availableName: String? {
+        adminArea ?? country
+    }
+    var availableNamesList: [String] {
+        var names = [String]()
+        
+        if let adminArea = adminArea {
+            names.append(adminArea)
+        }
+        if let country = country {
+            names.append(country)
+        }
+        
+        return names
     }
 }

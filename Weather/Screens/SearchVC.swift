@@ -11,28 +11,66 @@ class SearchVC: UIViewController {
 
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var citiesTableView: UITableView!
+    @IBOutlet weak var citiesTableBottomConstraint: NSLayoutConstraint!
     
     var cities = [City]() {
         didSet {
             citiesTableView.reloadData()
         }
     }
-    
+   
     var delegate: ViewControllerDelegate!
+    
+    var keyboardConstraint: NSLayoutConstraint!
     
     var searchTimer: Timer? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        searchTextField.delegate = self
-        citiesTableView.register(UINib(nibName: CitySearchCell.reuseID, bundle: nil), forCellReuseIdentifier: CitySearchCell.reuseID)
+        configureSearchTextField()
+        registerNibs()
+        setupKeyboardHiding()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         searchTextField.becomeFirstResponder()
     }
     
+    func configureSearchTextField() {
+        searchTextField.delegate = self
+    }
+    
+    func registerNibs() {
+        citiesTableView.register(UINib(nibName: CitySearchCell.reuseID, bundle: nil), forCellReuseIdentifier: CitySearchCell.reuseID)
+    }
+    
+    // Keyboard toggle methods
+    func setupKeyboardHiding() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(_ notification:Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                let keyboardRectangle = keyboardFrame.cgRectValue
+                let keyboardHeight = keyboardRectangle.height
+                citiesTableBottomConstraint.constant = keyboardHeight
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.view.layoutIfNeeded()
+                })
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification:Notification) {
+        citiesTableBottomConstraint.constant = 0
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.layoutIfNeeded()
+        })
+    }
+    
+    // NavigationBar buttons methods
     @IBAction func dismissVC(_ sender: UIButton) {
         impactOccured(style: .light)
         dismiss(animated: true)
@@ -42,6 +80,7 @@ class SearchVC: UIViewController {
         performSearch()
     }
     
+    // Search methods
     func performSearch() {
         impactOccured(style: .light)
         
@@ -70,6 +109,7 @@ class SearchVC: UIViewController {
         }
     }
     
+    // Textfield delay timer methods
     func stopSearchTimer() {
         searchTimer?.invalidate()
         searchTimer = nil
