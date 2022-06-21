@@ -9,13 +9,13 @@ import UIKit
 
 class DayWeatherCell: UITableViewCell {
     
-    @IBOutlet weak var dayLabel: UILabel!
-    @IBOutlet weak var maxTempLabel: UILabel!
-    @IBOutlet weak var minTempLabel: UILabel!
-    @IBOutlet weak var weatherTypeIcon: UIImageView!
+    @IBOutlet private weak var dayLabel: UILabel!
+    @IBOutlet private weak var maxTempLabel: UILabel!
+    @IBOutlet private weak var minTempLabel: UILabel!
+    @IBOutlet private weak var weatherTypeIcon: UIImageView!
     
-    @IBOutlet weak var degreeHelper1: UILabel!
-    @IBOutlet weak var degreeHelper2: UILabel!
+    @IBOutlet private weak var degreeHelper1: UILabel!
+    @IBOutlet private weak var degreeHelper2: UILabel!
     
     static let reuseID = "DayWeatherCell"
     

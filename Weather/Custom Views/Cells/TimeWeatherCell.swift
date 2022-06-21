@@ -11,9 +11,9 @@ class TimeWeatherCell: UICollectionViewCell {
     
     static let reuseID = "TimeWeatherCell"
     
-    @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var tempLabel: UILabel!
-    @IBOutlet weak var weatherImage: UIImageView!
+    @IBOutlet private weak var timeLabel: UILabel!
+    @IBOutlet private weak var tempLabel: UILabel!
+    @IBOutlet private weak var weatherImage: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

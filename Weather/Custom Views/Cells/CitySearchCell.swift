@@ -11,9 +11,9 @@ class CitySearchCell: UITableViewCell {
     
     static let reuseID = "CitySearchCell"
     
-    @IBOutlet weak var delimiterLabel: UILabel!
-    @IBOutlet weak var cityNameLabel: UILabel!
-    @IBOutlet weak var countryNameLabel: UILabel!
+    @IBOutlet private weak var delimiterLabel: UILabel!
+    @IBOutlet private weak var cityNameLabel: UILabel!
+    @IBOutlet private weak var countryNameLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

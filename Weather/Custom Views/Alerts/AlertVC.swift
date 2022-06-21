@@ -11,9 +11,9 @@ class AlertVC: UIViewController {
     
     var message: String?
     
-    @IBOutlet weak var messageLabel: UILabel!
-    @IBOutlet weak var modalView: UIView!
-    @IBOutlet weak var actionButton: UIButton!
+    @IBOutlet private weak var messageLabel: UILabel!
+    @IBOutlet private weak var modalView: UIView!
+    @IBOutlet private weak var actionButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,19 +22,19 @@ class AlertVC: UIViewController {
         configureLabel()
     }
     
-    func configureLabel() {
+    private func configureLabel() {
         messageLabel.text = message
     }
     
-    func configureModalView() {
+    private func configureModalView() {
         modalView.layer.cornerRadius = 5
     }
     
-    func configureButton() {
+    private func configureButton() {
         actionButton.layer.cornerRadius = 5
     }
     
-    @IBAction func buttonTapped(_ sender: Any) {
+    @IBAction private func buttonTapped(_ sender: Any) {
         impactOccured(style: .light)
         dismiss(animated: true)
     }
