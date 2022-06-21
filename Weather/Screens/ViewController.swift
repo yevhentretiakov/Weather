@@ -14,30 +14,30 @@ protocol ViewControllerDelegate {
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var cityNameLabel: UILabel!
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var maxTempLabel: UILabel!
-    @IBOutlet weak var minTempLabel: UILabel!
-    @IBOutlet weak var humidityLabel: UILabel!
-    @IBOutlet weak var windSpeedLabel: UILabel!
-    @IBOutlet weak var weatherImage: UIImageView!
-    @IBOutlet weak var windDirectionImage: UIImageView!
+    @IBOutlet private weak var cityNameLabel: UILabel!
+    @IBOutlet private weak var dateLabel: UILabel!
+    @IBOutlet private weak var maxTempLabel: UILabel!
+    @IBOutlet private weak var minTempLabel: UILabel!
+    @IBOutlet private weak var humidityLabel: UILabel!
+    @IBOutlet private weak var windSpeedLabel: UILabel!
+    @IBOutlet private weak var weatherImage: UIImageView!
+    @IBOutlet private weak var windDirectionImage: UIImageView!
     
-    @IBOutlet weak var hourlyWeatherCollectionView: UICollectionView!
-    @IBOutlet weak var dailyWeatherTableView: UITableView!
+    @IBOutlet private weak var hourlyWeatherCollectionView: UICollectionView!
+    @IBOutlet private weak var dailyWeatherTableView: UITableView!
     
-    @IBOutlet weak var currentAreaStack: UIStackView!
+    @IBOutlet private weak var currentAreaStack: UIStackView!
     
-    var currentArea: Area?
+    private var currentArea: Area?
     
-    var dailyWeather = [DayWeather]() {
+    private var dailyWeather = [DayWeather]() {
         didSet {
             updateUI(date: Date())
             reloadTimeWeatherCollectionView()
             reloadDayWeahterTableView()
         }
     }
-    var hourlyWeather = [HourWeather]()
+    private var hourlyWeather = [HourWeather]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,22 +47,22 @@ class ViewController: UIViewController {
         addGestureForAreaLabel()
     }
     
-    func startLocationServices() {
+    private func startLocationServices() {
         LocationManager.shared.delegate = self
         LocationManager.shared.start()
     }
     
-    func registerNibs() {
+    private func registerNibs() {
         hourlyWeatherCollectionView.register(UINib.init(nibName: TimeWeatherCell.reuseID, bundle: nil), forCellWithReuseIdentifier: TimeWeatherCell.reuseID)
         dailyWeatherTableView.register(UINib.init(nibName: DayWeatherCell.reuseID, bundle: nil), forCellReuseIdentifier: DayWeatherCell.reuseID)
     }
     
-    func addGestureForAreaLabel() {
+    private func addGestureForAreaLabel() {
         let gesture = UITapGestureRecognizer(target: self, action:  #selector(toMapTapped))
         currentAreaStack.addGestureRecognizer(gesture)
     }
     
-    func getWeather(area: Area) {
+    private func getWeather(area: Area) {
         Task {
             
             // The request by the name of the city can throw, in this case we make a request by the name of the country
@@ -83,7 +83,7 @@ class ViewController: UIViewController {
     }
     
     // UI updation methods
-    func updateUI(date: Date) {
+    private func updateUI(date: Date) {
         dateLabel.text = date.extract("E, dd MMMM")
         
         guard let day = dailyWeather.first(where: { $0.datetimeEpoch.toDate.isSameDayAs(date) }) else {
@@ -104,22 +104,22 @@ class ViewController: UIViewController {
         windDirectionImage.image = UIImage(systemName: day.windImage)
     }
     
-    func reloadDayWeahterTableView() {
+    private func reloadDayWeahterTableView() {
         dailyWeatherTableView.reloadData()
         dailyWeatherTableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: UITableView.ScrollPosition(rawValue: 0)!)
     }
     
-    func reloadTimeWeatherCollectionView() {
+    private func reloadTimeWeatherCollectionView() {
         hourlyWeatherCollectionView.reloadData()
     }
     
     // NavigationBar buttons methods
-    @objc func toMapTapped() {
+    @objc private func toMapTapped() {
         impactOccured(style: .light)
         performSegue(withIdentifier: "presentMapVC", sender: self)
     }
     
-    @IBAction func toSearchTapped(_ sender: Any) {
+    @IBAction private func toSearchTapped(_ sender: Any) {
         impactOccured(style: .light)
         LocationManager.shared.stop()
         performSegue(withIdentifier: "presentSearchVC", sender: self)
@@ -128,6 +128,7 @@ class ViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let searchVC = segue.destination as? SearchVC {
             searchVC.delegate = self
+            
         } else if let mapVC = segue.destination as? MapVC {
             mapVC.delegate = self
             if let currentArea = currentArea {

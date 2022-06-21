@@ -10,8 +10,8 @@ import MapKit
 
 class MapVC: UIViewController {
     
-    @IBOutlet weak var mapView: MKMapView!
-    let coordinateSpan = MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
+    @IBOutlet private weak var mapView: MKMapView!
+    private let coordinateSpan = MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
    
     var delegate: ViewControllerDelegate?
     var coordinate: Coordinate?
@@ -25,7 +25,7 @@ class MapVC: UIViewController {
         configureMapTapGesture()
     }
     
-    func showCurrentLocation() {
+    private func showCurrentLocation() {
         if let safeCoordinate = coordinate {
             let longitude = safeCoordinate.longitude
             let latitude = safeCoordinate.latitude
@@ -36,7 +36,7 @@ class MapVC: UIViewController {
         }
     }
     
-    func addPin() {
+    private func addPin() {
         if let safeCoordinate = coordinate {
             let longitude = safeCoordinate.longitude
             let latitude = safeCoordinate.latitude
@@ -55,16 +55,16 @@ class MapVC: UIViewController {
         }
     }
     
-    func configureMapView() {
+    private func configureMapView() {
         mapView.delegate = self
     }
     
-    func configureMapTapGesture() {
+    private func configureMapTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         mapView.addGestureRecognizer(tapGesture)
     }
     
-    @objc func handleTap(gestureReconizer: UITapGestureRecognizer) {
+    @objc private func handleTap(gestureReconizer: UITapGestureRecognizer) {
         
         let point = gestureReconizer.location(in: mapView)
         let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
@@ -75,7 +75,6 @@ class MapVC: UIViewController {
         Task {
             do {
                 let area = try await LocationManager.shared.fetchArea(location: loc)
-                print(area)
                 delegate?.didSelectArea(area: area)
                 dismiss(animated: true)
             } catch {
@@ -87,12 +86,12 @@ class MapVC: UIViewController {
     }
     
     // NavigationBar buttons methods
-    @IBAction func showCurrentLocation(_ sender: UIButton) {
+    @IBAction private func showCurrentLocation(_ sender: UIButton) {
         impactOccured(style: .light)
         showCurrentLocation()
     }
     
-    @IBAction func dismissVC(_ sender: UIButton) {
+    @IBAction private func dismissVC(_ sender: UIButton) {
         impactOccured(style: .light)
         dismiss(animated: true)
     }

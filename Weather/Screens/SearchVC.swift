@@ -8,22 +8,22 @@
 import UIKit
 
 class SearchVC: UIViewController {
-
-    @IBOutlet weak var searchTextField: UITextField!
-    @IBOutlet weak var citiesTableView: UITableView!
-    @IBOutlet weak var citiesTableBottomConstraint: NSLayoutConstraint!
     
-    var cities = [City]() {
+    @IBOutlet private weak var searchTextField: UITextField!
+    @IBOutlet private weak var citiesTableView: UITableView!
+    @IBOutlet private weak var citiesTableBottomConstraint: NSLayoutConstraint!
+    
+    private var cities = [City]() {
         didSet {
             citiesTableView.reloadData()
         }
     }
-   
+    
     var delegate: ViewControllerDelegate!
     
-    var keyboardConstraint: NSLayoutConstraint!
+    private var keyboardConstraint: NSLayoutConstraint!
     
-    var searchTimer: Timer? = nil
+    private var searchTimer: Timer? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,21 +38,21 @@ class SearchVC: UIViewController {
         searchTextField.becomeFirstResponder()
     }
     
-    func configureSearchTextField() {
+    private func configureSearchTextField() {
         searchTextField.delegate = self
     }
     
-    func registerNibs() {
+    private func registerNibs() {
         citiesTableView.register(UINib(nibName: CitySearchCell.reuseID, bundle: nil), forCellReuseIdentifier: CitySearchCell.reuseID)
     }
     
     // Keyboard toggle methods
-    func setupKeyboardHiding() {
+    private func setupKeyboardHiding() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    @objc func keyboardWillShow(_ notification:Notification) {
+    @objc private func keyboardWillShow(_ notification:Notification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
                 let keyboardRectangle = keyboardFrame.cgRectValue
                 let keyboardHeight = keyboardRectangle.height
@@ -63,7 +63,7 @@ class SearchVC: UIViewController {
         }
     }
     
-    @objc func keyboardWillHide(_ notification:Notification) {
+    @objc private func keyboardWillHide(_ notification:Notification) {
         citiesTableBottomConstraint.constant = 0
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
@@ -71,17 +71,17 @@ class SearchVC: UIViewController {
     }
     
     // NavigationBar buttons methods
-    @IBAction func dismissVC(_ sender: UIButton) {
+    @IBAction private func dismissVC(_ sender: UIButton) {
         impactOccured(style: .light)
         dismiss(animated: true)
     }
     
-    @IBAction func searchTapped(_ sender: UIButton) {
+    @IBAction private func searchTapped(_ sender: UIButton) {
         performSearch()
     }
     
     // Search methods
-    func performSearch() {
+    private func performSearch() {
         impactOccured(style: .light)
         
         if let text = searchTextField.text, text.isEmpty {
@@ -91,7 +91,7 @@ class SearchVC: UIViewController {
         }
     }
     
-    func tryGetCities() {
+    private func tryGetCities() {
         if let text = searchTextField.text, !text.isEmpty {
             Task {
                 do {
@@ -110,12 +110,12 @@ class SearchVC: UIViewController {
     }
     
     // Textfield delay timer methods
-    func stopSearchTimer() {
+    private func stopSearchTimer() {
         searchTimer?.invalidate()
         searchTimer = nil
     }
     
-    func startSearchTimer() {
+    private func startSearchTimer() {
         searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
             self.tryGetCities()
         }
